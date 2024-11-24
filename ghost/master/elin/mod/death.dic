@@ -1,0 +1,17 @@
+/*
+ * Reference0: PCの名前
+ * Reference1: 死因
+ * Reference2: (存在すれば)PCを殺したNPC
+ */
+OnElinPCDead {
+    '\0\s[0]あるじー！\w9\w9'
+}
+
+/*
+ * Reference0: ペットの名前
+ * Reference1: 死因
+ * Reference2: (存在すれば)PCを殺したNPC
+ */
+OnElinAllyDead {
+    "\0\s[0]%(reference[0])が死んでしもうた。\w9\w9死因は%(reference[1])でござる。\w9\w9"
+}

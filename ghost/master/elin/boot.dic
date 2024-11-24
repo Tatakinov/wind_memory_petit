@@ -1,0 +1,76 @@
+OnInitialize {
+    count = 0
+}
+
+OnDestroy {
+    ERASEVAR('count')
+}
+
+OnFirstBoot {
+    level = 0
+    elona = 0
+    quiet = 0
+}
+
+OnBoot {
+    if !level || !elona {
+        FirstBoot
+    }
+    else {
+        '\0\s[0]今日も宜しくお頼み申す。\w9\w9'
+    }
+}
+
+OnClose {
+    '\-'
+}
+
+FirstBoot {
+    '\0\s[0]拙者はプチな申す。\w9\w9\n主が「えりん」を楽しむ手助けをしに参った。\w9\w9\n'
+    --
+    'はやなれど、\w9主はElinのことをどのくらい存じておる？\n'
+    --
+    '(出来るだけ正直に答えるべし！)\n\n'
+    --
+    '\q[これから遊ぶよ,OnSetLevel,1]\n'
+    --
+    '\q[Elin初心者,OnSetLevel,2]\n'
+    --
+    '\q[Elin中級者,OnSetLevel,3]\n'
+    --
+    '\q[Elin上級者,OnSetLevel,4]\n'
+    --
+    '\q[Elin廃人,OnSetLevel,5]\n'
+}
+
+OnSetLevel {
+    level = TOINT(reference[0])
+    FirstBoot2
+}
+
+FirstBoot2 {
+    '\0\s[0]もう一つ問いかけするぞよ。\w9\w9\n'
+    --
+    'elonaは遊んだことあるでござるか？\n\n'
+    --
+    '\q[ない,OnSetElona,1]\n'
+    --
+    '\q[ある,OnSetElona,2]\n'
+    --
+    '\q[廃人です,OnSetElona,3]\n'
+}
+
+OnSetElona {
+    elona = TOINT(reference[0])
+    FirstBoot3
+}
+
+FirstBoot3 {
+    '\0\s[0]答えていただきかたじけない。\w9\w9\n\n'
+    --
+    '此れよりもほっといても喋るなれど、\w9静かにしてほしい、\w9聞きたいことがある等したら、\w9拙者を「だぶるくりっく」するべし。\w9\w9\n'
+    --
+    'また、\w9拙者をを終了させたいときは、\w9ボクを「右くりっく」して「終了」を選ぶべし。\w9\w9\n\n'
+    --
+    'それでは、\w9これからも宜しくお願いいたす。\w9\w9\n'
+}

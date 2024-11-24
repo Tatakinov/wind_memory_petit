@@ -1,0 +1,9 @@
+charset,UTF-8
+type,shell
+name,master
+
+craftman,Tatakinov
+craftmanw,タタキノフ
+
+seriko.use_self_alpha,1
+seriko.alignmenttodesktop,free

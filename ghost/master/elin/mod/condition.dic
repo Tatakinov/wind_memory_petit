@@ -1,0 +1,28 @@
+/*
+ * Reference0: 状態異常の名称
+ */
+OnElinPCCondition {
+    _r = reference
+    --
+    case _r[0] {
+        when '飢餓' {
+            '\0\s[0]そろそろ何某か食べるのが良いのではござらんか？\w9\w9'
+        }
+        when '餓死寸前' {
+            '\0\s[0]死ぬぅ！\w9\w9'
+        }
+    }
+}
+
+/*
+ * Reference0: ペットの名前
+ * Reference1: 状態異常の名称
+ */
+OnElinAllyCondition {
+    _r = reference
+    case _r[1] {
+        when '炎上' {
+            "\0\s[0]%(_r[0])が炎上致し候、早う水を掛けてやらんと！"
+        }
+    }
+}

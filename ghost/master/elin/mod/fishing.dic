@@ -1,0 +1,6 @@
+/*
+ * Reference0: 釣り上げたものの名前
+ */
+OnElinCatchFish {
+    "\0\s[0]%(reference[0])を釣り上げたでござるな。\w9\w9"
+}

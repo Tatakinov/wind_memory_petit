@@ -1,0 +1,175 @@
+IsRareItem {
+    _item = _argv[0]
+    if RE_SEARCH(_item, '☆|★') {
+        True
+        return
+    }
+    False
+    return
+}
+
+AnalyzeItems {
+    foreach _argv; _i {
+        if IsRareItem(_i) {
+            True
+            return
+        }
+    }
+    False
+    return
+}
+
+IsRareChara {
+    _name = _argv[0]
+    if RE_MATCH(_name, '.*『.*』') {
+        True
+        return
+    }
+    False
+    return
+}
+
+AnalyzeCharas {
+    // 奇跡以上を装備している変異種の数、変異種の数、奇跡以上を装備している敵の数
+    _ret = (0, 0, 0)
+    foreach _argv; _c {
+        _tmp = Str2Array(_c, CHR(2))
+        _chara = _tmp[0]
+        _tmp[0] = IARRAY
+        _items = _tmp
+
+        _is_rare_chara = IsRareChara(_chara)
+        _has_rare_item = AnalyzeItems(_items)
+
+        if _is_rare_chara && _has_rare_item {
+            _ret[0] += 1
+        }
+        elseif _is_rare_chara {
+            _ret[1] += 1
+        }
+        elseif _has_rare_item {
+            _ret[2] += 1
+        }
+    }
+    _ret
+}
+
+Rare {
+    _e_charas = Str2Array(_argv[0], CHR(1))
+    _n_charas = Str2Array(_argv[1], CHR(1))
+    _f_charas = Str2Array(_argv[2], CHR(1))
+    _a_charas = Str2Array(_argv[3], CHR(1))
+    _items = Str2Array(_argv[4], CHR(1))
+
+    _e_result = AnalyzeCharas(_e_charas)
+    _n_result = AnalyzeCharas(_n_charas)
+    _f_result = AnalyzeCharas(_f_charas)
+    _a_result = AnalyzeCharas(_a_charas)
+
+    if _e_result[0] {
+        '\0\s[0]業物を持ちよる強敵の気配、用心されよ！'
+    }
+    if _e_result[1] {
+        '\0\s[0]強敵の気配、用心されよ！'
+    }
+    if _e_result[2] {
+        '\0\s[0]業物を持ちよる敵の気配！'
+    }
+    if _n_result[0] {
+        '\0\s[0]業物を持ちよる強そうな気配を感じ候。'
+    }
+    if _n_result[1] {
+        '\0\s[0]強そうな気配を感じ候。'
+    }
+    if _n_result[2] {
+        '\0\s[0]業物を持ちよる気配を感じ候。'
+    }
+    /* for debug
+    if _f_result[0] {
+        '\0\s[0]友軍RR'
+    }
+    if _f_result[1] {
+        '\0\s[0]友軍RN'
+    }
+    if _f_result[2] {
+        '\0\s[0]友軍NR'
+    }
+    if _a_result[0] {
+        '\0\s[0]自軍RR。'
+    }
+    if _a_result[1] {
+        '\0\s[0]自軍RN'
+    }
+    if _a_result[2] {
+        '\0\s[0]自軍NR'
+    }
+    */
+
+    // 神の像と祠は除外する
+    _tmp = IARRAY
+    foreach _items; _i {
+        if !RE_SEARCH(_i, '祠|像') {
+            _tmp ,= _i
+        }
+    }
+    _items = _tmp
+    if AnalyzeItems(_items) {
+        '\0\s[0]お宝の気配がするでござる！\w9\w9'
+    }
+}
+
+/*
+ * Reference0: マップの名前
+ * Reference1: 敵NPCの情報
+ * Reference2: 中立NPCの情報
+ * Reference3: 友好NPCの情報
+ * Reference4: 味方NPCの情報
+ * Reference5: 落ちている/設置されているアイテムの情報
+ * Reference6: 街か
+ * Reference7: ネフィアか
+ * Reference8: PCの所有物件(?)か
+ * Reference9: 固定ネフィアか
+ * Reference10: 何も無いフィールドマップか
+ *
+ * 情報: バイト値0x01で区切られている。
+ *       例: 土(0x01)砂糖(0x01)鑑定の巻物…
+ *       この内、NPCの情報はさらにバイト値0x02で名前と持ち物が区切られている。
+ *       例: イーク(0x02)銅の短剣(0x02)紙の靴(0x01)ゴブリン(0x02)紙の大剣(0x02)珊瑚の軽外套(0x01)プチ…
+ *
+ */
+OnElinMapEnter {
+    _r = reference
+    _name = _r[0]
+    _is_town = _r[6] == 'True'
+    _is_nefia = _r[7] == 'True'
+    _is_pc_faction = _r[8] == 'True'
+    _is_dungeon = _r[9] == 'True'
+    _is_random_field = _r[10] == 'True'
+    _r[0] = IARRAY
+    if _is_town {
+        "\0\s[0]%(_name)に到着したでござる。"
+        return
+    }
+    elseif _is_nefia || (_is_dungeon && !_is_pc_faction) || (_is_random_field && !_is_pc_faction) {
+        Rare(_r)
+    }
+}
+
+/*
+ * Reference0: 敵NPCの情報
+ * Reference1: 中立NPCの情報
+ * Reference2: 友好NPCの情報
+ * Reference3: 味方NPCの情報
+ */
+OnElinMapCharaGenerate {
+    Rare(reference, "")
+}
+
+/*
+ * Reference0: 床に落ちている/設置されているアイテムの情報
+ */
+OnElinMapItemGenerate {
+    Rare("", "", "", "", reference)
+}
+
+

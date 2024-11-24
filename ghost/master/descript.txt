@@ -1,0 +1,17 @@
+charset,UTF-8
+readme.charset,UTF-8
+
+type,ghost
+name,風の記憶『プチ』
+
+sakura.name,プチ
+kero.name,None
+
+craftman,tatakinov
+craftmanw,タタキノフ
+
+homeurl,https://raw.githubusercontent.com/Tatakinov/wind_memory_petit/main/
+
+shiori,yaya.dll
+
+seriko.alignmenttodesktop,free

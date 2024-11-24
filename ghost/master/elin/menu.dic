@@ -1,0 +1,21 @@
+OnMouseDoubleClick {
+    '\0\s[0]如何した？\n\n'
+    --
+    '\q[何か話して,OnTalkRandom]\n'
+    --
+    '\q[初心者講座,OnAsk]\n'
+    --
+    if quiet != 0 {
+        '\q[喋っていいよ,OnBeQuiet,0]\n'
+    }
+    --
+    if quiet != 1 {
+        '\q[静かにしてて,OnBeQuiet,1]\n'
+    }
+    --
+    if quiet != 2 {
+        '\q[もっと静かにしてて,OnBeQuiet,2]\n'
+    }
+    --
+    '\n\q[なんでもない,OnQuit]\n'
+}

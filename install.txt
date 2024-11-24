@@ -1,0 +1,6 @@
+charset,UTF-8
+
+type,ghost
+name,風の記憶『プチ』
+directory,wind_memory_petit
+

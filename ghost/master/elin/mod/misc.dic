@@ -1,0 +1,26 @@
+True {
+    1
+}
+
+False {
+    0
+}
+
+KnowElona {
+    elona >= 2
+}
+
+KnowDeepElona {
+    elona == 3
+}
+
+Str2Array {
+    _str = _argv[0]
+    _delim = _argv[1]
+    if STRLEN(_str) > 0 {
+        SPLIT(_str, _delim)
+    }
+    else {
+        IARRAY
+    }
+}

@@ -1,0 +1,18 @@
+OnBeQuiet {
+    quiet = TOINT(reference[0])
+}
+
+OnSurfaceRestore {
+    '\0\s[0]'
+}
+
+OnSecondChange {
+    if quiet != 0 {
+        return
+    }
+    count++
+    if count == 300 {
+        count = 0
+        OnTalkRandom
+    }
+}
