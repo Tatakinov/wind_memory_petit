@@ -1,0 +1,23 @@
+/*
+ * Reference0: 直前のカルマ
+ * Reference1: 現在のカルマ
+ */
+OnElinKarmaChange {
+    _pre = TOINT(reference[0])
+    _post = TOINT(reference[0])
+    if _pre > _post {
+        if _post >= 0 {
+            if _post < 15 {
+                '\0\s[0]主、カルマが減ってきているでござる。\w9\w9犯罪者として生きるにはかなりの覚悟が必要でござるよ。\w9\w9依頼を達成したりネフィアを攻略してカルマを増やすでござる。\w9\w9'
+            }
+        }
+        elseif _pre >= 0 {
+            // 犯罪者になった
+        }
+    }
+    else {
+        if _pre < 0 && _post >= 0 {
+            // 犯罪者じゃなくなった
+        }
+    }
+}
