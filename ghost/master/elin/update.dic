@@ -1,0 +1,22 @@
+OnUpdateBegin {
+    '\0\s[0]更新にござるか?'
+}
+
+OnUpdateReady {
+    '\0\s[0]何やら更新がある様子でござる。'
+}
+
+OnUpdateComplete {
+    _reason = reference[0]
+    if _reason == 'none' {
+        '\0\s[0]更新は無いようにござる。'
+    }
+    elseif _reason == 'changed' {
+        '\0\s[0]更新が完了致し候。'
+    }
+}
+
+OnUpdateFailure {
+    _reason = reference[0]
+    "\0\s[0]更新に失敗したでござる。理由は%(_reason)でござるか。"
+}
